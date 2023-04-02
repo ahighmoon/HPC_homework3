@@ -39,7 +39,7 @@ int main(int argc, char **argv){
         #pragma omp parallel
         {
             #pragma omp for
-            // for red nodes, i and j have the same parity
+            // for red nodes, i and j have the same parity
             for (long i = 1; i < N + 1; i++){
                 for (long j = 2 - i % 2; j < N + 1; j += 2){
                     u2[i * (N + 2) + j] = GS_iterate(u1, N, i, j, f);
@@ -47,7 +47,7 @@ int main(int argc, char **argv){
             }
 
             #pragma omp for
-            // for black nodes, i and j have diff parity
+            //for black nodes, i and j have diff parity
             for (long i = 1; i < N + 1; i++){
                 for (long j = 1 + i % 2; j < N + 1; j += 2){
                     u2[i * (N + 2) + j] = GS_iterate(u2, N, i, j, f);
@@ -63,12 +63,12 @@ int main(int argc, char **argv){
         }
     }
     printf("The total run time is %f. \n", t.toc());
-    // for (long i = 0; i < N + 2; i++){
-    //     for (long j = 0; j < N + 2; j++){
-    //         printf("%f ", u1[(i) * (N + 2) + j]);
-    //     }
-    //     printf("\n");
-    // }
+    // for (long i = 0; i < N + 2; i++){
+    //     for (long j = 0; j < N + 2; j++){
+    //         printf("%f ", u1[(i) * (N + 2) + j]);
+    //     }
+    //     printf("\n");
+    // }
     free(u1);
     free(u2);
     free(f);
