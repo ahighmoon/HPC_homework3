@@ -20,7 +20,7 @@ using namespace std;
 
 // throughout this program, we represent a N+2 by N+2 matrix as a vector such that the (i,j)-th entry of the matrix is (i* (N+2) + j)-th entry of the vector
 
-double J_iterate(double *pre, long N, long i, long j, double *f)
+double GS_iterate(double *pre, long N, long i, long j, double *f)
 {
     long index = i*(N+2)+j;
     return 1/4 * (f[index]/pow(N+1,2) + pre[index-N-2] + pre[index-1] + pre[index+N+2] + pre[index+1]);
@@ -30,25 +30,22 @@ int main(int argc, char **argv){
     Timer t;
     t.tic();
     long N = read_option<long>("-n", argc, argv);
-    double *u1 = (double *)malloc(pow(N + 2, 2) * sizeof(double));
-    double *u2 = (double *)malloc(pow(N + 2, 2) * sizeof(double));
-
+    double *u = (double *)malloc(pow(N + 2, 2) * sizeof(double));
     double *f = (double *)malloc(pow(N + 2, 2) * sizeof(double));
     for (long i = 0; i < pow(N + 2, 2); i++){
-        u1[i] = 0;
+        u[i] = 0;
         f[i] = 1;
-    }
-
-    for (long i = 0; i < N + 2; i++){
-        u2[i] = 0; // [0][~]
-        u2[i * (N + 2)] = 0; // [~][0]
-        u2[(N + 1) * (N + 2) + i] = 0; // [n+1][~]
-        u2[i * (N + 2) + (N + 1)] = 0; // [~][n+1]
     }
 
     int num_iter = 10;
     for (long c = 0; c < num_iter; c++){
-
+        double *new_u = (double *)malloc(pow(N + 2, 2) * sizeof(double));
+        for (long i = 0; i < N + 2; i++){
+            new_u[i] = 0; // [0][~]
+            new_u[i * (N + 2)] = 0; // [~][0]
+            new_u[(N + 1) * (N + 2) + i] = 0; // [n+1][~]
+            new_u[i * (N + 2) + (N + 1)] = 0; // [~][n+1]
+        }
 
         // update red nodes
         #pragma omp parallel for
