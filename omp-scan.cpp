@@ -52,11 +52,18 @@ int main() {
   long* B0 = (long*) malloc(N * sizeof(long));
   long* B1 = (long*) malloc(N * sizeof(long));
   for (long i = 0; i < N; i++) A[i] = rand();
+  for (long i = 0; i < N; i++) B0[i] = 0;
   for (long i = 0; i < N; i++) B1[i] = 0;
   
   double tt = omp_get_wtime();
   scan_seq(B0, A, N);
   printf("sequential-scan = %fs\n", omp_get_wtime() - tt);
+
+  // for (int p = 2; p < 32; p ++){
+  //   double tt = omp_get_wtime();
+  //   scan_seq(B0, A, N, p);
+  //   printf("p = %d, sequential-scan = %fs\n", p, omp_get_wtime() - tt);
+  // }
 
   tt = omp_get_wtime();
   scan_omp(B1, A, N);
@@ -72,7 +79,7 @@ int main() {
       //   std::cout << "i = " << i << ", err = " << err << "\n";
       //   break;
       // }
-      //assert (err == 0);
+      // assert (err == 0);
   }
   printf("error = %ld\n", err);
 

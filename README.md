@@ -10,6 +10,36 @@ When **n is odd**, then two threads are assigned chunks of an equal number of fu
 
 When **n is even**, then the schedule(static) clause would assign a chunk with one more function call for thread 0. Thread 0 would first execute function f() for  1+ ... +n/2  = n^2/8+n/4 milliseconds. Thread 1 will execute function f() for  (n/2 + 1) + ... + n-1  = 3n^2/8-3n/4 milliseconds. So thread 0 will wait for thread 1 for 3n^2/8-3n/4 - n^2/8 - n/4 = n^2/4 - n milliseconds. Then thread 0 would execute function f() for n-1 + ... + n/2 = 3n^2/8 - n/4 milliseconds. Thread 1 would execute f() for 1+ ... +n/2 - 1 = n^2/8-n/4 milliseconds. So wait time for thread 1 would be 3n^2/8 - n/4 - n^2/8 + n/4 = n^2/4 milliseconds. So they will **both spend** 3n^2/8-3n/4 + 3n^2/8 - n/4 = **3n^2/4 - n milliseconds in executing the parallel region, in which thread 0 will wait for n^2/4 - n milliseconds and thread 1 will wait for n^2/4** **milliseconds**.
 
-(b) 
+(b)
 
 (c)
+
+
+**Problem 2**
+
+I parallelized the serial code and ran it on AMD 64-bit CPU, Intel® Core™ i5-10210U CPU, with 8 compute cores. The runtime with different thread number are following:
+
+thread number = 1, run time = 1.369707s
+thread number = 2, run time = 1.369707s
+thread number = 3, run time = 1.369707s
+thread number = 4, run time = 1.369707s
+thread number = 5, run time = 1.369707s
+thread number = 6, run time = 1.369707s
+thread number = 7, run time = 1.369707s
+thread number = 8, run time = 1.369707s
+thread number = 9, run time = 1.369707s
+thread number = 10, run time = 1.369707s
+thread number = 11, run time = 1.369707s
+thread number = 12, run time = 1.369707s
+thread number = 13, run time = 1.369707s
+thread number = 14, run time = 1.369707s
+thread number = 15, run time = 1.369707s
+thread number = 16, run time = 1.369707s
+thread number = 17, run time = 1.369707s
+thread number = 18, run time = 1.369707s
+thread number = 19, run time = 1.369707s
+thread number = 20, run time = 1.369707s
+thread number = 21, run time = 1.369707s
+thread number = 22, run time = 1.369707s
+thread number = 23, run time = 1.369707s
+thread number = 24, run time = 1.369707s
