@@ -26,11 +26,11 @@ So, together with the first for-loop, the ***total execution time for n when n =
 
 If n is even, then first for-loop would execute for 1 + 3 + ... + n-3 + n-1 = n^2/4 millisesconds, in which one thread will spend n/2 milliseconds waiting. In the second loop, since n is even, n-1 is odd, there would be 3 or 1 left. If the remainder is 3 (n=4t), then second loop would execute for (4t-1+4t-4)+(4t-5+4t-8)+ ... + 11+ 3 = (8t-5)+(8t-13) + ... +11+3 = 4t^2-t= (n-1)n/4 milliseconds, wait time =0. If the remainder is 1 (n=4t+2), then second loop would execute for (4t+1+4t-2)+(4t-3+4t-6)+ ... + 7+ 1 = (8t-1)+(8t-9) + ... +7+1 = 4t^2+3*t+1= (n+1)(n-2)/4+1 milliseconds, wait time =1. So, together with the first for-loop, the ***total execution time for n when n = 0 mod 4 is n^2/4+ (n-1) n/4= (2n^2-n)/4 milliseconds (with n/2 millisecond waiting), when n = 2 mod 4 is n^2/4+ (n+1)(n-2)/4+1 =  (2n^2-n+2)/4 milliseconds(with n/2+1 millisecond waiting)***.
 
-(d) Yes, the directive is nowait.
+(d) ***Yes, the directive is nowait***.
 
-When **n is odd**, then two threads are assigned chunks of an equal number of function calls and together they should run without wait for a exactly same amount of time. The time would be 1 + ... + n-1 = n(n-1)/2 milliseconds, wait time = 0.
+When ***n is odd***, then two threads are assigned chunks of an equal number of function calls and together they should run without wait for a exactly same amount of time. ***The time would be 1 + ... + n-1 = n(n-1)/2 milliseconds, wait time = 0***.
 
-When **n is even**, then the schedule(static) clause would assign a chunk with one more function call for thread 0. So thread 1 would wait for thread 0 for a little time after it finishes all tasks. Total execution time would be 1+ ... +n/2+n/2 + ... +n-1 = n^2/2 milliseconds. Thread 1 will wait for n seconds within those n^2/2 milliseconds.
+When ***n is even***, then the schedule(static) clause would assign a chunk with one more function call for thread 0. So thread 1 would wait for thread 0 for a little time after it finishes all tasks. ***Total execution time would be 1+ ... +n/2+n/2 + ... +n-1 = n^2/2 milliseconds. Thread 1 will wait for n seconds* **within those n^2/2 milliseconds.
 
 **Problem 2**
 
