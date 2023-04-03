@@ -12,7 +12,15 @@ When **n is even**, then the schedule(static) clause would assign a chunk with o
 
 (b)
 
-(c)
+(c) The (dynamic, 1) case is more complicated than previous ones. First consider when n is odd, in the first for-loop, two threads would be assigned tasks just as in (static, 1). So first for-loop would execute for 2 + 4 + ... + n-1 = (n-1)(n+1)/4 millisesconds, in which one thread will spend (n-1)/2 milliseconds waiting. 
+
+Then in the seconds for-loop, due to the reverse order of index, there will be a fix pattern. Let's say thread 0 gets f(n-1) and thread 1 get f(n-2) in the second loop, then thread 1 would end first and get f(n-3), then thread 0 ends and gets f(n-4). Then after 2n-5 milliseconds they will both end at the same time. This pattern continues until there are less than 4 tasks. Since n is odd, n-1 is even, there would be 2 or 0 left. If there're 2, one gets f(2) and the other gets f(1). If there's none then program ends. So we can analyze the second for-loop in terms of the remainder of n-1 divided by 4. If the remainder is 2 (n=4t+3), then second loop would execute for (4t+2+4t-1)+(4t-2+4t-5)+ ... + 2 = (8t+1)+(8t-7) + ... +9+2 = 4t^2+5*t+2 = (n+2)(n-3)/4 +2 milliseconds, in which 1 millisecond is wait time.
+
+If the remainder is 0 (n=4t+1), then second loop would execute for (4t+4t-3)+(4t-4+4t-7)+ ... + 2 = (8t-3)+(8t-11) + ... +5+0 = 4t^2+t = n(n-1)/4 milliseconds, in which wait time = 0.
+
+So, together with the first for-loop, the ***total execution time for n when n = 3 mod 4 is (n-1)(n+1)/4 + (n+2)(n-3)/4 +2 = (2n^2-n+1)/4 milliseconds (with 1 millisecond waiting), when n = 1 mod 4 is (n-1)(n+1)/4 + n(n-1)/4 = (2n^2-n-1)/4 milliseconds***.
+
+If n is even, then first for-loop would execute for 1 + 3 + ... + n-3 + n-1 = n^2/4 millisesconds, in which one thread will spend n/2 milliseconds waiting. In the second loop, since n is even, n-1 is odd, there would be 3 or 1 left. If the remainder is 3 (n=4t), then second loop would execute for (4t-1+4t-4)+(4t-5+4t-8)+ ... + 11+ 3 = (8t-5)+(8t-13) + ... +11+3 = 4t^2-t= (n-1)n/4 milliseconds, wait time =0. If the remainder is 1 (n=4t+2), then second loop would execute for (4t+1+4t-2)+(4t-3+4t-6)+ ... + 7+ 1 = (8t-1)+(8t-9) + ... +7+1 = 4t^2+3*t+1= (n+1)(n-2)/4+1 milliseconds, wait time =0. So, together with the first for-loop, the ***total execution time for n when n = 0 mod 4 is n^2/4+ (n-1) n/4= (2n^2-n)/4 milliseconds (with n/2 millisecond waiting), when n = 2 mod 4 is n^2/4+ (n+1)(n-2)/4+1 =  (2n^2-n+2)/4 milliseconds(with n/2 millisecond waiting)***.
 
 (d) Yes, the directive is nowait.
 
