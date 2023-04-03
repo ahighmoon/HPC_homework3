@@ -14,6 +14,12 @@ When **n is even**, then the schedule(static) clause would assign a chunk with o
 
 (c)
 
+(d) Yes, the directive is nowait.
+
+When **n is odd**, then two threads are assigned chunks of an equal number of function calls and together they should run without wait for a exactly same amount of time. The time would be 1 + ... + n-1 = n(n-1)/2 milliseconds, wait time = 0.
+
+When **n is even**, then the schedule(static) clause would assign a chunk with one more function call for thread 0. So thread 1 would wait for thread 0 for a little time after it finishes all tasks. Total execution time would be 1+ ... +n/2+n/2 + ... +n-1 = n^2/2 milliseconds. Thread 1 will wait for n seconds within those n^2/2 milliseconds.
+
 **Problem 2**
 
 I parallelized the serial code and ran it on AMD 64-bit CPU, Intel® Core™ i5-10210U CPU, with 4 compute cores. The OS is Windows Subsystem for Linux distro Ubuntu 22.04. The runtime with different thread number are following:
